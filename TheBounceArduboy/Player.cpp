@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-void PlayerClass::update(Arduboy2& arduboy, ArduboyTones& sound)
+void PlayerClass::update(Arduboy2& arduboy)//, ArduboyTones& sound)
 {
 	if (arduboy.pressed(RIGHT_BUTTON))
 	{
@@ -58,7 +58,7 @@ void PlayerClass::update(Arduboy2& arduboy, ArduboyTones& sound)
 			canJump = true;
 		}
 		botCol = false;
-		sound.tone(400 + (fabsf(yVelocity) * 50), 10);
+		//sound.tone(400 + (fabsf(yVelocity) * 50), 10);
 	}
 	else if (topCol)
 	{
@@ -68,7 +68,7 @@ void PlayerClass::update(Arduboy2& arduboy, ArduboyTones& sound)
 			canJump = true;
 		}
 		topCol = false;
-		sound.tone(400 + (fabsf(yVelocity) * 50), 10);
+		//sound.tone(400 + (fabsf(yVelocity) * 50), 10);
 	}
 
 	if (rightCol)
@@ -76,14 +76,14 @@ void PlayerClass::update(Arduboy2& arduboy, ArduboyTones& sound)
 		xVelocity = fabsf(xVelocity) * -1.5f;
 		canJump = true;
 		rightCol = false;
-		sound.tone(400 + (fabsf(xVelocity) * 50), 10);
+		//sound.tone(400 + (fabsf(xVelocity) * 50), 10);
 	}
 	else if (leftCol)
 	{
 		xVelocity = fabsf(xVelocity) * 1.5f;
 		canJump = true;
 		leftCol = false;
-		sound.tone(400 + (fabsf(xVelocity) * 50), 10);
+		//sound.tone(400 + (fabsf(xVelocity) * 50), 10);
 	}
 
 	// Add drag

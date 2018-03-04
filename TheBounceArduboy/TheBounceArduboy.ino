@@ -5,10 +5,10 @@
 #include "Sprites.h"
 #include "Player.h"
 #include "Arduboy2.h"
-#include "ArduboyTones.h"
+// #include "ArduboyTones.h"
 
 Arduboy2 arduboy;
-ArduboyTones sound(arduboy.audio.enabled);
+// ArduboyTones sound(arduboy.audio.enabled);
 
 // The current state of the game
 byte gameState = 1; // 1 = MainMenu, 2 = Gameplay, 3 = End level transion, 4 = Options Menu, 5 = Level Select
@@ -52,24 +52,13 @@ void setup()
 	arduboy.boot();
 	arduboy.flashlight();
 
-	arduboy.LCDCommandMode();
-	arduboy.SPItransfer(0xd9);
-	arduboy.SPItransfer(0x2f);
-
-	arduboy.SPItransfer(0xdb);
-	arduboy.SPItransfer(0x00);
-
-	arduboy.SPItransfer(0x81);
-	arduboy.SPItransfer(255);
-	arduboy.LCDDataMode();
-
 	// Framerate to 30
 	// Framerate was 30 on the bugged frame timing (or the thought it was a bug fixed version... idk anymore)
 	// but default 60 seems correct on offical Arduboy ver 1.1.1
 	//arduboy.setFrameRate(30);
 
 	// Read to see if there is any levels unlocked
-	levelUnlocked = EEPROM.read(450);
+//	levelUnlocked = EEPROM.read(450);
 
 	// Check if variable is within normal ranges
 	if (levelUnlocked > 0 && levelUnlocked < TOTALNUMBEROFLEVELS)
@@ -84,7 +73,7 @@ void setup()
 	else
 	{
 		// If no valid save file found, create a new one
-		EEPROM.write(450, 1);
+//		EEPROM.write(450, 1);
 		// Load first level
 		LoadLevel(1);
 		levelUnlocked = 1;
@@ -183,12 +172,12 @@ void loop()
 			gameState = 1;
 		}
 
-		player.update(arduboy, sound);
+		player.update(arduboy);//, sound);
 
 		if (player.y > MAPFLOOR)
 		{
 			// Play death sound
-			sound.tone(700, 100);
+//			sound.tone(700, 100);
 
 			// Respawn the player as they have died
 			player.respawn(spawnX, spawnY);
@@ -196,7 +185,7 @@ void loop()
 		else if (player.y < MAPCEILING && !(currentLevel == 8 || currentLevel == 11))
 		{
 			// Play death sound
-			sound.tone(700, 100);
+//			sound.tone(700, 100);
 
 			// Respawn the player as they have died
 			player.respawn(spawnX, spawnY);
@@ -240,7 +229,7 @@ void loop()
 					case 3:
 						if (spawnX != currentMapData[i].x)
 						{
-							sound.tone(4000, 100);
+//							sound.tone(4000, 100);
 							spawnX = currentMapData[i].x;
 							spawnY = currentMapData[i].y - 8;
 						}
@@ -266,13 +255,13 @@ void loop()
 					case 6:
 						player.botCol = true;
 						currentMapData[i].type = 99;
-						sound.tone(2000, 100);
+//						sound.tone(2000, 100);
 						currentMapData[i - 1] = { 0,0,0,0,0 };
 						break;
 					case 7:
 						player.botCol = true;
 						currentMapData[i].type = 99;
-						sound.tone(2000, 100);
+//						sound.tone(2000, 100);
 						currentMapData[i - 1].type -= 100;
 						break;
 					case 8:
@@ -280,7 +269,7 @@ void loop()
 						if (player.canInteract && player.gravity >= 0)
 						{
 							player.gravity *= -1;
-							sound.tone(2000, 100);
+//							sound.tone(2000, 100);
 						}
 						player.hitInteractable();
 						break;
@@ -291,7 +280,7 @@ void loop()
 						player.x = 0;
 						player.y = 0;
 						menuBallY = 255;
-						EEPROM.write(450, TOTALNUMBEROFLEVELS);
+//						EEPROM.write(450, TOTALNUMBEROFLEVELS);
 
 						for (int i = 0; i < 20; i++)
 						{
@@ -327,7 +316,7 @@ void loop()
 						if (player.canInteract && player.gravity <= 0)
 						{
 							player.gravity *= -1;
-							sound.tone(2000, 100);
+//							sound.tone(2000, 100);
 						}
 						player.hitInteractable();
 					}
@@ -360,7 +349,7 @@ void loop()
 					if (currentMapData[i].type == 1 || currentMapData[i].type == 11 || currentMapData[i].type == 15 || currentMapData[i].type == 16)
 					{
 						// Play death sound
-						sound.tone(1000, 100);
+//						sound.tone(1000, 100);
 
 						// Respawn the player as they have died
 						player.respawn(spawnX, spawnY);
@@ -405,19 +394,19 @@ void loop()
 			LoadLevel(currentLevel + 1);
 
 			// If the save file has unlocked a level lower than the level just reached
-			if (EEPROM.read(450) < currentLevel && currentLevel <= TOTALNUMBEROFLEVELS)
-			{
-				// Write the new level
-				EEPROM.write(450, currentLevel);
-				levelUnlocked = currentLevel;
-			}
+//			if (EEPROM.read(450) < currentLevel && currentLevel <= TOTALNUMBEROFLEVELS)
+//			{
+//				// Write the new level
+//				EEPROM.write(450, currentLevel);
+//				levelUnlocked = currentLevel;
+//			}
 
 			//currentLevel++;
 			//player.respawn(spawnX, spawnY);
 
 
 		}
-		sound.tone(5000, 10);
+//		sound.tone(5000, 10);
 	}
 	// Options Menu
 	else if (gameState == 4)
@@ -460,7 +449,7 @@ void loop()
 					gameState++;
 					break;
 				case 2:
-					EEPROM.write(450, 1);
+					//EEPROM.write(450, 1);
 					levelUnlocked = 1;
 					arduboy.print(F("\n\n  Save file deleted!"));
 					arduboy.display();
@@ -592,16 +581,17 @@ void loop()
 
 		camY -= 2;
 		
-		sound.tone((menuBallY / 2) - random(0, 10), 10);
+//		sound.tone((menuBallY / 2) - random(0, 10), 10);
 
 		// Using menuBallY for contrast variable
 		menuBallY -= 0.2f;
 
 		// Fade out using screen contrast
-		arduboy.LCDCommandMode();
-		arduboy.SPItransfer(0x81);
-		arduboy.SPItransfer(menuBallY);
-		arduboy.LCDDataMode();
+//		arduboy.LCDCommandMode();
+//		arduboy.SPItransfer(0x81);
+//		arduboy.SPItransfer(menuBallY);
+//		arduboy.LCDDataMode();
+      arduboy.sendLCDCommand(0x81, menuBallY);
 
 		for (int i = 0; i < 20; i++)
 		{
@@ -618,11 +608,11 @@ void loop()
 
 			menuBallY = -15;
 
-			arduboy.LCDCommandMode();
-			arduboy.SPItransfer(0x81);
-			arduboy.SPItransfer(255);
-			arduboy.LCDDataMode();
-
+//			arduboy.LCDCommandMode();
+//			arduboy.SPItransfer(0x81);
+//			arduboy.SPItransfer(255);
+//			arduboy.LCDDataMode();
+        arduboy.sendLCDCommand(0x81, 255);
 			LoadLevel(1);
 
 			gameState = 1;
