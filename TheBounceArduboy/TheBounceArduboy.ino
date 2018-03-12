@@ -6,9 +6,11 @@
 #include "Player.h"
 #include "Arduboy2.h"
 // #include "ArduboyTones.h"
+#include <MicroGamerMemoryCard.h>
 
 Arduboy2 arduboy;
 // ArduboyTones sound(arduboy.audio.enabled);
+MicroGamerMemoryCard mem(1);
 
 // The current state of the game
 byte gameState = 1; // 1 = MainMenu, 2 = Gameplay, 3 = End level transion, 4 = Options Menu, 5 = Level Select
@@ -44,7 +46,7 @@ float menuBallVelo;
 // Copy in RAM of the current level that is being used. Must be at least the size of the largest level
 MapObject currentMapData[LARGESTARRAYSIZE];
 
-byte levelUnlocked;
+uint32_t levelUnlocked;
 
 void setup()
 {
@@ -58,7 +60,8 @@ void setup()
 	//arduboy.setFrameRate(30);
 
 	// Read to see if there is any levels unlocked
-//	levelUnlocked = EEPROM.read(450);
+  mem.load();
+  levelUnlocked = *mem.data();
 
 	// Check if variable is within normal ranges
 	if (levelUnlocked > 0 && levelUnlocked < TOTALNUMBEROFLEVELS)
@@ -73,7 +76,8 @@ void setup()
 	else
 	{
 		// If no valid save file found, create a new one
-//		EEPROM.write(450, 1);
+  	*mem.data() = 1;
+    mem.save();
 		// Load first level
 		LoadLevel(1);
 		levelUnlocked = 1;
@@ -280,7 +284,8 @@ void loop()
 						player.x = 0;
 						player.y = 0;
 						menuBallY = 255;
-//						EEPROM.write(450, TOTALNUMBEROFLEVELS);
+            *mem.data() = TOTALNUMBEROFLEVELS;
+            mem.save();
 
 						for (int i = 0; i < 20; i++)
 						{
@@ -394,12 +399,13 @@ void loop()
 			LoadLevel(currentLevel + 1);
 
 			// If the save file has unlocked a level lower than the level just reached
-//			if (EEPROM.read(450) < currentLevel && currentLevel <= TOTALNUMBEROFLEVELS)
-//			{
-//				// Write the new level
-//				EEPROM.write(450, currentLevel);
-//				levelUnlocked = currentLevel;
-//			}
+			if (*mem.data() < currentLevel && currentLevel <= TOTALNUMBEROFLEVELS)
+			{
+				// Write the new level
+        *mem.data() = currentLevel;
+        mem.save();
+				levelUnlocked = currentLevel;
+			}
 
 			//currentLevel++;
 			//player.respawn(spawnX, spawnY);
@@ -449,8 +455,9 @@ void loop()
 					gameState++;
 					break;
 				case 2:
-					//EEPROM.write(450, 1);
-					levelUnlocked = 1;
+          *mem.data() = 1;
+          mem.save();
+          levelUnlocked = 1;
 					arduboy.print(F("\n\n  Save file deleted!"));
 					arduboy.display();
 					delay(2000);
