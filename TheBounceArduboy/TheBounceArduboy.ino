@@ -5,11 +5,11 @@
 #include "Sprites.h"
 #include "Player.h"
 #include "Arduboy2.h"
-// #include "ArduboyTones.h"
+#include "ArduboyTones.h"
 #include <MicroGamerMemoryCard.h>
 
 Arduboy2 arduboy;
-// ArduboyTones sound(arduboy.audio.enabled);
+ArduboyTones sound(arduboy.audio.enabled);
 MicroGamerMemoryCard mem(1);
 
 // The current state of the game
@@ -176,12 +176,12 @@ void loop()
 			gameState = 1;
 		}
 
-		player.update(arduboy);//, sound);
+		player.update(arduboy, sound);
 
 		if (player.y > MAPFLOOR)
 		{
 			// Play death sound
-//			sound.tone(700, 100);
+			sound.tone(700, 100);
 
 			// Respawn the player as they have died
 			player.respawn(spawnX, spawnY);
@@ -189,7 +189,7 @@ void loop()
 		else if (player.y < MAPCEILING && !(currentLevel == 8 || currentLevel == 11))
 		{
 			// Play death sound
-//			sound.tone(700, 100);
+			sound.tone(700, 100);
 
 			// Respawn the player as they have died
 			player.respawn(spawnX, spawnY);
@@ -233,7 +233,7 @@ void loop()
 					case 3:
 						if (spawnX != currentMapData[i].x)
 						{
-//							sound.tone(4000, 100);
+							sound.tone(4000, 100);
 							spawnX = currentMapData[i].x;
 							spawnY = currentMapData[i].y - 8;
 						}
@@ -259,13 +259,13 @@ void loop()
 					case 6:
 						player.botCol = true;
 						currentMapData[i].type = 99;
-//						sound.tone(2000, 100);
+						sound.tone(2000, 100);
 						currentMapData[i - 1] = { 0,0,0,0,0 };
 						break;
 					case 7:
 						player.botCol = true;
 						currentMapData[i].type = 99;
-//						sound.tone(2000, 100);
+						sound.tone(2000, 100);
 						currentMapData[i - 1].type -= 100;
 						break;
 					case 8:
@@ -273,7 +273,7 @@ void loop()
 						if (player.canInteract && player.gravity >= 0)
 						{
 							player.gravity *= -1;
-//							sound.tone(2000, 100);
+							sound.tone(2000, 100);
 						}
 						player.hitInteractable();
 						break;
@@ -321,7 +321,7 @@ void loop()
 						if (player.canInteract && player.gravity <= 0)
 						{
 							player.gravity *= -1;
-//							sound.tone(2000, 100);
+							sound.tone(2000, 100);
 						}
 						player.hitInteractable();
 					}
@@ -354,7 +354,7 @@ void loop()
 					if (currentMapData[i].type == 1 || currentMapData[i].type == 11 || currentMapData[i].type == 15 || currentMapData[i].type == 16)
 					{
 						// Play death sound
-//						sound.tone(1000, 100);
+						sound.tone(1000, 100);
 
 						// Respawn the player as they have died
 						player.respawn(spawnX, spawnY);
@@ -588,7 +588,7 @@ void loop()
 
 		camY -= 2;
 		
-//		sound.tone((menuBallY / 2) - random(0, 10), 10);
+		sound.tone((menuBallY / 2) - random(0, 10), 10);
 
 		// Using menuBallY for contrast variable
 		menuBallY -= 0.2f;
