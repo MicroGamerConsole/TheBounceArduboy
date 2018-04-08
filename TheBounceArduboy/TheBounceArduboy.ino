@@ -53,6 +53,7 @@ void setup()
 	// Start arduboy stuff
 	arduboy.boot();
 	arduboy.flashlight();
+  arduboy.enableDoubleBuffer();
 
 	// Framerate to 30
 	// Framerate was 30 on the bugged frame timing (or the thought it was a bug fixed version... idk anymore)
