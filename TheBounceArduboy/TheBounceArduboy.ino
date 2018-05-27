@@ -599,7 +599,7 @@ void loop()
 //		arduboy.SPItransfer(0x81);
 //		arduboy.SPItransfer(menuBallY);
 //		arduboy.LCDDataMode();
-      arduboy.sendLCDCommand(0x81, menuBallY);
+//      arduboy.sendLCDCommand(0x81, menuBallY);
 
 		for (int i = 0; i < 20; i++)
 		{
@@ -620,7 +620,7 @@ void loop()
 //			arduboy.SPItransfer(0x81);
 //			arduboy.SPItransfer(255);
 //			arduboy.LCDDataMode();
-        arduboy.sendLCDCommand(0x81, 255);
+//        arduboy.sendLCDCommand(0x81, 255);
 			LoadLevel(1);
 
 			gameState = 1;
