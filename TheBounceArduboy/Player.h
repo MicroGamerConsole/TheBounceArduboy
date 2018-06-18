@@ -3,8 +3,8 @@
 #ifndef _PLAYER_h
 #define _PLAYER_h
 
-#include <Arduboy2.h>
-#include <ArduboyTones.h>
+#include <MicroGamer.h>
+#include <MicroGamerTones.h>
 
 #define  DEFAULTGRAVITY    0.15f
 
@@ -32,7 +32,7 @@ public:
 	bool topCol;
 	bool botCol;
 
-	void update(Arduboy2& arduboy, ArduboyTones& sound);
+	void update(MicroGamer& arduboy, MicroGamerTones& sound);
 	void respawn(short spawnX, short spawnY);
 	void hitInteractable();
 };

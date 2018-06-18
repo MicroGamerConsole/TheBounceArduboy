@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-void PlayerClass::update(Arduboy2& arduboy, ArduboyTones& sound)
+void PlayerClass::update(MicroGamer& arduboy, MicroGamerTones& sound)
 {
 	if (arduboy.pressed(RIGHT_BUTTON))
 	{

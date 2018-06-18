@@ -3,7 +3,7 @@
 #ifndef _MAPS_h
 #define _MAPS_h
 
-#include <Arduboy2.h>
+#include <MicroGamer.h>
 
 // The struct for the objects in the level
 struct MapObject

@@ -4,12 +4,12 @@
 #include "Maps.h"
 #include "Sprites.h"
 #include "Player.h"
-#include "Arduboy2.h"
-#include "ArduboyTones.h"
+#include "MicroGamer.h"
+#include "MicroGamerTones.h"
 #include <MicroGamerMemoryCard.h>
 
-Arduboy2 arduboy;
-ArduboyTones sound(arduboy.audio.enabled);
+MicroGamer arduboy;
+MicroGamerTones sound(arduboy.audio.enabled);
 MicroGamerMemoryCard mem(1);
 
 // The current state of the game
@@ -53,7 +53,7 @@ void setup()
 	// Start arduboy stuff
 	arduboy.boot();
 	arduboy.flashlight();
-  arduboy.enableDoubleBuffer();
+	arduboy.enableDoubleBuffer();
 
 	// Framerate to 30
 	// Framerate was 30 on the bugged frame timing (or the thought it was a bug fixed version... idk anymore)
@@ -61,8 +61,8 @@ void setup()
 	//arduboy.setFrameRate(30);
 
 	// Read to see if there is any levels unlocked
-  mem.load();
-  levelUnlocked = *mem.data();
+	mem.load();
+	levelUnlocked = *mem.data();
 
 	// Check if variable is within normal ranges
 	if (levelUnlocked > 0 && levelUnlocked < TOTALNUMBEROFLEVELS)
