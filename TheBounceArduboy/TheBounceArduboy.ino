@@ -96,7 +96,7 @@ void loop()
 	// Intro
 	if (gameState == 1)
 	{
-		if (arduboy.pressed(A_BUTTON))
+		if (arduboy.pressed(Y_BUTTON))
 		{
 			if (!selectionChanged)
 			{
@@ -434,7 +434,7 @@ void loop()
 		arduboy.print(F("\n  Level Select"));
 		arduboy.print(F("\n  Delete save file"));
 
-		if (arduboy.pressed(A_BUTTON))
+		if (arduboy.pressed(Y_BUTTON))
 		{
 			if (!selectionChanged)
 			{
@@ -469,7 +469,7 @@ void loop()
 				selectionChanged = true;
 			}
 		}
-		else if (arduboy.pressed(B_BUTTON))
+		else if (arduboy.pressed(X_BUTTON))
 		{
 			if (!selectionChanged)
 			{
@@ -513,7 +513,7 @@ void loop()
 		arduboy.drawFastHLine(0, 19 + (menuSelection * 8), 8, 1);
 
 		arduboy.print(F("\n\n  UP/DOWN=Choose"));
-		arduboy.print(F("\n  A=Select B=Back"));
+		arduboy.print(F("\n  Y=Select X=Back"));
 	}
 	// Level Select
 	else if (gameState == 5)
@@ -548,7 +548,7 @@ void loop()
 				}
 			}
 		}
-		else if (arduboy.pressed(A_BUTTON))
+		else if (arduboy.pressed(Y_BUTTON))
 		{
 			if (!selectionChanged)
 			{
@@ -559,7 +559,7 @@ void loop()
 				menuSelection = 0;
 			}
 		}
-		else if (arduboy.pressed(B_BUTTON))
+		else if (arduboy.pressed(X_BUTTON))
 		{
 			if (!selectionChanged)
 			{
@@ -578,7 +578,7 @@ void loop()
 		arduboy.print(menuSelection);
 
 		arduboy.print(F("\n\n  UP/DOWN=Choose"));
-		arduboy.print(F("\n  A=Select B=Back"));
+		arduboy.print(F("\n  Y=Select X=Back"));
 	}
 	// End of game Rocket
 	else if (gameState == 6)

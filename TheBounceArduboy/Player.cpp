@@ -19,7 +19,7 @@ void PlayerClass::update(MicroGamer& arduboy, MicroGamerTones& sound)
 		}
 	}
 
-	if (arduboy.pressed(DOWN_BUTTON) || arduboy.pressed(B_BUTTON))
+	if (arduboy.pressed(DOWN_BUTTON) || arduboy.pressed(X_BUTTON))
 	{
 		if (yVelocity < -1)
 		{
@@ -28,7 +28,7 @@ void PlayerClass::update(MicroGamer& arduboy, MicroGamerTones& sound)
 		xVelocity *= 0.93f;
 	}
 
-	if (arduboy.pressed(A_BUTTON))
+	if (arduboy.pressed(Y_BUTTON))
 	{
 		if (canJump)
 		{
